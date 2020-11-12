@@ -428,11 +428,12 @@ defmodule AWS.MediaConvert do
   defp build_host(_endpoint_prefix, %{region: "local"}) do
     "localhost"
   end
-  defp build_host(endpoint_prefix, %{region: region, endpoint: endpoint, mediaconvert_prefix: mediaconvert_prefix}) when is_binary(mediaconvert_prefix) do
-    "#{mediaconvert_prefix}.#{endpoint_prefix}.#{region}.#{endpoint}"
-  end
-  defp build_host(endpoint_prefix, %{region: region, endpoint: endpoint}) do
-    "#{endpoint_prefix}.#{region}.#{endpoint}"
+  defp build_host(endpoint_prefix, %{region: region, endpoint: endpoint, mediaconvert_prefix: mediaconvert_prefix}) do
+    if is_nil(mediaconvert_prefix) do
+      "#{endpoint_prefix}.#{region}.#{endpoint}"
+    else
+      "#{mediaconvert_prefix}.#{endpoint_prefix}.#{region}.#{endpoint}"
+    end
   end
 
   defp build_url(host, path, %{:proto => proto, :port => port}) do
