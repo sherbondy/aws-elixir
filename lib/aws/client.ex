@@ -9,6 +9,7 @@ defmodule AWS.Client do
             region: nil,
             service: nil,
             endpoint: "amazonaws.com",
+            mediaconvert_prefix: nil,
             proto: "https",
             port: "443",
             http_client: {HTTPoison, []},
