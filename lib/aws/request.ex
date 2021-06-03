@@ -160,10 +160,10 @@ defmodule AWS.Request do
     if metadata.global? do
       "#{metadata.endpoint_prefix}.#{client.endpoint}"
     else
-      if is_nil(client.mediaconvert_prefix) do
-        "#{metadata.endpoint_prefix}.#{client.region}.#{client.endpoint}"
-      else
+      if !is_nil(client.mediaconvert_prefix) && metadata.endpoint_prefix == "mediaconvert" do
         "#{client.mediaconvert_prefix}.#{metadata.endpoint_prefix}.#{client.region}.#{client.endpoint}"
+      else
+        "#{metadata.endpoint_prefix}.#{client.region}.#{client.endpoint}"
       end
     end
   end
