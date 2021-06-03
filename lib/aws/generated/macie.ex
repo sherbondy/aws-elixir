@@ -12,19 +12,33 @@ defmodule AWS.Macie do
   information (PII) or intellectual property, and provides you with dashboards and
   alerts that give visibility into how this data is being accessed or moved. For
   more information, see the [Amazon Macie Classic User Guide](https://docs.aws.amazon.com/macie/latest/userguide/what-is-macie.html).
-
-  A new Amazon Macie is now available with significant design improvements and
-  additional features, at a lower price and in most AWS Regions. We encourage you
-  to explore and use the new and improved features, and benefit from the reduced
-  cost. To learn about features and pricing for the new Amazon Macie, see [Amazon Macie](https://aws.amazon.com/macie/).
   """
+
+  alias AWS.Client
+  alias AWS.Request
+
+  def metadata do
+    %AWS.ServiceMetadata{
+      abbreviation: nil,
+      api_version: "2017-12-19",
+      content_type: "application/x-amz-json-1.1",
+      credential_scope: nil,
+      endpoint_prefix: "macie",
+      global?: false,
+      protocol: "json",
+      service_id: "Macie",
+      signature_version: "v4",
+      signing_name: "macie",
+      target_prefix: "MacieService"
+    }
+  end
 
   @doc """
   Associates a specified AWS account with Amazon Macie Classic as a member
   account.
   """
-  def associate_member_account(client, input, options \\ []) do
-    request(client, "AssociateMemberAccount", input, options)
+  def associate_member_account(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "AssociateMemberAccount", input, options)
   end
 
   @doc """
@@ -32,117 +46,63 @@ defmodule AWS.Macie do
   data classification.
 
   If memberAccountId isn't specified, the action associates specified S3 resources
-  with Macie Classic for the current master account. If memberAccountId is
-  specified, the action associates specified S3 resources with Macie Classic for
-  the specified member account.
+  with Macie Classic for the current Macie Classic administrator account. If
+  memberAccountId is specified, the action associates specified S3 resources with
+  Macie Classic for the specified member account.
   """
-  def associate_s3_resources(client, input, options \\ []) do
-    request(client, "AssociateS3Resources", input, options)
+  def associate_s3_resources(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "AssociateS3Resources", input, options)
   end
 
   @doc """
   Removes the specified member account from Amazon Macie Classic.
   """
-  def disassociate_member_account(client, input, options \\ []) do
-    request(client, "DisassociateMemberAccount", input, options)
+  def disassociate_member_account(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "DisassociateMemberAccount", input, options)
   end
 
   @doc """
   Removes specified S3 resources from being monitored by Amazon Macie Classic.
 
   If memberAccountId isn't specified, the action removes specified S3 resources
-  from Macie Classic for the current master account. If memberAccountId is
-  specified, the action removes specified S3 resources from Macie Classic for the
-  specified member account.
+  from Macie Classic for the current Macie Classic administrator account. If
+  memberAccountId is specified, the action removes specified S3 resources from
+  Macie Classic for the specified member account.
   """
-  def disassociate_s3_resources(client, input, options \\ []) do
-    request(client, "DisassociateS3Resources", input, options)
+  def disassociate_s3_resources(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "DisassociateS3Resources", input, options)
   end
 
   @doc """
-  Lists all Amazon Macie Classic member accounts for the current Amazon Macie
-  Classic master account.
+  Lists all Amazon Macie Classic member accounts for the current Macie Classic
+  administrator account.
   """
-  def list_member_accounts(client, input, options \\ []) do
-    request(client, "ListMemberAccounts", input, options)
+  def list_member_accounts(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "ListMemberAccounts", input, options)
   end
 
   @doc """
   Lists all the S3 resources associated with Amazon Macie Classic.
 
   If memberAccountId isn't specified, the action lists the S3 resources associated
-  with Amazon Macie Classic for the current master account. If memberAccountId is
-  specified, the action lists the S3 resources associated with Amazon Macie
-  Classic for the specified member account.
+  with Macie Classic for the current Macie Classic administrator account. If
+  memberAccountId is specified, the action lists the S3 resources associated with
+  Macie Classic for the specified member account.
   """
-  def list_s3_resources(client, input, options \\ []) do
-    request(client, "ListS3Resources", input, options)
+  def list_s3_resources(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "ListS3Resources", input, options)
   end
 
   @doc """
   Updates the classification types for the specified S3 resources.
 
   If memberAccountId isn't specified, the action updates the classification types
-  of the S3 resources associated with Amazon Macie Classic for the current master
-  account. If memberAccountId is specified, the action updates the classification
-  types of the S3 resources associated with Amazon Macie Classic for the specified
-  member account.
+  of the S3 resources associated with Amazon Macie Classic for the current Macie
+  Classic administrator account. If memberAccountId is specified, the action
+  updates the classification types of the S3 resources associated with Macie
+  Classic for the specified member account.
   """
-  def update_s3_resources(client, input, options \\ []) do
-    request(client, "UpdateS3Resources", input, options)
-  end
-
-  @spec request(AWS.Client.t(), binary(), map(), list()) ::
-          {:ok, map() | nil, map()}
-          | {:error, term()}
-  defp request(client, action, input, options) do
-    client = %{client | service: "macie"}
-    host = build_host("macie", client)
-    url = build_url(host, client)
-
-    headers = [
-      {"Host", host},
-      {"Content-Type", "application/x-amz-json-1.1"},
-      {"X-Amz-Target", "MacieService.#{action}"}
-    ]
-
-    payload = encode!(client, input)
-    headers = AWS.Request.sign_v4(client, "POST", url, headers, payload)
-    post(client, url, payload, headers, options)
-  end
-
-  defp post(client, url, payload, headers, options) do
-    case AWS.Client.request(client, :post, url, payload, headers, options) do
-      {:ok, %{status_code: 200, body: body} = response} ->
-        body = if body != "", do: decode!(client, body)
-        {:ok, body, response}
-
-      {:ok, response} ->
-        {:error, {:unexpected_response, response}}
-
-      error = {:error, _reason} -> error
-    end
-  end
-
-  defp build_host(_endpoint_prefix, %{region: "local", endpoint: endpoint}) do
-    endpoint
-  end
-  defp build_host(_endpoint_prefix, %{region: "local"}) do
-    "localhost"
-  end
-  defp build_host(endpoint_prefix, %{region: region, endpoint: endpoint}) do
-    "#{endpoint_prefix}.#{region}.#{endpoint}"
-  end
-
-  defp build_url(host, %{:proto => proto, :port => port}) do
-    "#{proto}://#{host}:#{port}/"
-  end
-
-  defp encode!(client, payload) do
-    AWS.Client.encode!(client, payload, :json)
-  end
-
-  defp decode!(client, payload) do
-    AWS.Client.decode!(client, payload, :json)
+  def update_s3_resources(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "UpdateS3Resources", input, options)
   end
 end

@@ -23,7 +23,7 @@ defmodule AWS.SQS do
 
     * Handle error responses
 
-  ## Additional Information
+  ## Additional information
 
     * [Amazon SQS Product Page](http://aws.amazon.com/sqs/)
 
@@ -42,6 +42,25 @@ defmodule AWS.SQS do
 
       * [Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#sqs_region)
   """
+
+  alias AWS.Client
+  alias AWS.Request
+
+  def metadata do
+    %AWS.ServiceMetadata{
+      abbreviation: "Amazon SQS",
+      api_version: "2012-11-05",
+      content_type: "application/x-www-form-urlencoded",
+      credential_scope: nil,
+      endpoint_prefix: "sqs",
+      global?: false,
+      protocol: "query",
+      service_id: "SQS",
+      signature_version: "v4",
+      signing_name: "sqs",
+      target_prefix: nil
+    }
+  end
 
   @doc """
   Adds a permission to a queue for a specific
@@ -74,11 +93,11 @@ defmodule AWS.SQS do
   `&AttributeName.2=second`
 
   Cross-account permissions don't apply to this action. For more information, see
-  [Grant Cross-Account Permissions to a Role and a User Name](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name)
+  [Grant cross-account permissions to a role and a user name](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name)
   in the *Amazon Simple Queue Service Developer Guide*.
   """
-  def add_permission(client, input, options \\ []) do
-    request(client, "AddPermission", input, options)
+  def add_permission(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "AddPermission", input, options)
   end
 
   @doc """
@@ -135,8 +154,8 @@ defmodule AWS.SQS do
   you set using the `ChangeMessageVisibility` action) the next time the message is
   received.
   """
-  def change_message_visibility(client, input, options \\ []) do
-    request(client, "ChangeMessageVisibility", input, options)
+  def change_message_visibility(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "ChangeMessageVisibility", input, options)
   end
 
   @doc """
@@ -159,8 +178,8 @@ defmodule AWS.SQS do
 
   `&AttributeName.2=second`
   """
-  def change_message_visibility_batch(client, input, options \\ []) do
-    request(client, "ChangeMessageVisibilityBatch", input, options)
+  def change_message_visibility_batch(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "ChangeMessageVisibilityBatch", input, options)
   end
 
   @doc """
@@ -210,11 +229,11 @@ defmodule AWS.SQS do
   `&AttributeName.2=second`
 
   Cross-account permissions don't apply to this action. For more information, see
-  [Grant Cross-Account Permissions to a Role and a User Name](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name)
+  [Grant cross-account permissions to a role and a user name](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name)
   in the *Amazon Simple Queue Service Developer Guide*.
   """
-  def create_queue(client, input, options \\ []) do
-    request(client, "CreateQueue", input, options)
+  def create_queue(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "CreateQueue", input, options)
   end
 
   @doc """
@@ -240,8 +259,8 @@ defmodule AWS.SQS do
   subsequent receive request. You should ensure that your application is
   idempotent, so that receiving a message more than once does not cause issues.
   """
-  def delete_message(client, input, options \\ []) do
-    request(client, "DeleteMessage", input, options)
+  def delete_message(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "DeleteMessage", input, options)
   end
 
   @doc """
@@ -262,8 +281,8 @@ defmodule AWS.SQS do
 
   `&AttributeName.2=second`
   """
-  def delete_message_batch(client, input, options \\ []) do
-    request(client, "DeleteMessageBatch", input, options)
+  def delete_message_batch(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "DeleteMessageBatch", input, options)
   end
 
   @doc """
@@ -282,11 +301,11 @@ defmodule AWS.SQS do
   queue with the same name.
 
   Cross-account permissions don't apply to this action. For more information, see
-  [Grant Cross-Account Permissions to a Role and a User Name](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name)
+  [Grant cross-account permissions to a role and a user name](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name)
   in the *Amazon Simple Queue Service Developer Guide*.
   """
-  def delete_queue(client, input, options \\ []) do
-    request(client, "DeleteQueue", input, options)
+  def delete_queue(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "DeleteQueue", input, options)
   end
 
   @doc """
@@ -296,8 +315,8 @@ defmodule AWS.SQS do
   [FIFO](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html),
   you can check whether `QueueName` ends with the `.fifo` suffix.
   """
-  def get_queue_attributes(client, input, options \\ []) do
-    request(client, "GetQueueAttributes", input, options)
+  def get_queue_attributes(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "GetQueueAttributes", input, options)
   end
 
   @doc """
@@ -310,8 +329,8 @@ defmodule AWS.SQS do
   Queue](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-writing-an-sqs-policy.html#write-messages-to-shared-queue)
   in the *Amazon Simple Queue Service Developer Guide*.
   """
-  def get_queue_url(client, input, options \\ []) do
-    request(client, "GetQueueUrl", input, options)
+  def get_queue_url(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "GetQueueUrl", input, options)
   end
 
   @doc """
@@ -330,8 +349,8 @@ defmodule AWS.SQS do
   Queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html)
   in the *Amazon Simple Queue Service Developer Guide*.
   """
-  def list_dead_letter_source_queues(client, input, options \\ []) do
-    request(client, "ListDeadLetterSourceQueues", input, options)
+  def list_dead_letter_source_queues(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "ListDeadLetterSourceQueues", input, options)
   end
 
   @doc """
@@ -341,11 +360,11 @@ defmodule AWS.SQS do
   in the *Amazon Simple Queue Service Developer Guide*.
 
   Cross-account permissions don't apply to this action. For more information, see
-  [Grant Cross-Account Permissions to a Role and a User Name](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name)
+  [Grant cross-account permissions to a role and a user name](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name)
   in the *Amazon Simple Queue Service Developer Guide*.
   """
-  def list_queue_tags(client, input, options \\ []) do
-    request(client, "ListQueueTags", input, options)
+  def list_queue_tags(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "ListQueueTags", input, options)
   end
 
   @doc """
@@ -363,11 +382,11 @@ defmodule AWS.SQS do
   your next request to `listQueues` to receive the next page of results.
 
   Cross-account permissions don't apply to this action. For more information, see
-  [Grant Cross-Account Permissions to a Role and a User Name](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name)
+  [Grant cross-account permissions to a role and a user name](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name)
   in the *Amazon Simple Queue Service Developer Guide*.
   """
-  def list_queues(client, input, options \\ []) do
-    request(client, "ListQueues", input, options)
+  def list_queues(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "ListQueues", input, options)
   end
 
   @doc """
@@ -385,8 +404,8 @@ defmodule AWS.SQS do
   Messages sent to the queue *after* you call `PurgeQueue` might be deleted while
   the queue is being purged.
   """
-  def purge_queue(client, input, options \\ []) do
-    request(client, "PurgeQueue", input, options)
+  def purge_queue(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "PurgeQueue", input, options)
   end
 
   @doc """
@@ -437,8 +456,8 @@ defmodule AWS.SQS do
   action, we recommend that you structure your code so that it can handle new
   attributes gracefully.
   """
-  def receive_message(client, input, options \\ []) do
-    request(client, "ReceiveMessage", input, options)
+  def receive_message(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "ReceiveMessage", input, options)
   end
 
   @doc """
@@ -448,15 +467,15 @@ defmodule AWS.SQS do
      Only the owner of a queue can remove permissions from it.
 
      Cross-account permissions don't apply to this action. For more
-  information, see [Grant Cross-Account Permissions to a Role and a User Name](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name)
+  information, see [Grant cross-account permissions to a role and a user name](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name)
   in the *Amazon Simple Queue Service Developer Guide*.
 
      To remove the ability to change queue permissions, you must deny
   permission to the `AddPermission`, `RemovePermission`, and `SetQueueAttributes`
   actions in your IAM policy.
   """
-  def remove_permission(client, input, options \\ []) do
-    request(client, "RemovePermission", input, options)
+  def remove_permission(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "RemovePermission", input, options)
   end
 
   @doc """
@@ -471,8 +490,8 @@ defmodule AWS.SQS do
   Any characters not included in this list will be rejected. For more information,
   see the [W3C specification for characters](http://www.w3.org/TR/REC-xml/#charsets).
   """
-  def send_message(client, input, options \\ []) do
-    request(client, "SendMessage", input, options)
+  def send_message(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "SendMessage", input, options)
   end
 
   @doc """
@@ -510,8 +529,8 @@ defmodule AWS.SQS do
 
   `&AttributeName.2=second`
   """
-  def send_message_batch(client, input, options \\ []) do
-    request(client, "SendMessageBatch", input, options)
+  def send_message_batch(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "SendMessageBatch", input, options)
   end
 
   @doc """
@@ -526,15 +545,15 @@ defmodule AWS.SQS do
   handle new attributes gracefully.
 
      Cross-account permissions don't apply to this action. For more
-  information, see [Grant Cross-Account Permissions to a Role and a User Name](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name)
+  information, see [Grant cross-account permissions to a role and a user name](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name)
   in the *Amazon Simple Queue Service Developer Guide*.
 
      To remove the ability to change queue permissions, you must deny
   permission to the `AddPermission`, `RemovePermission`, and `SetQueueAttributes`
   actions in your IAM policy.
   """
-  def set_queue_attributes(client, input, options \\ []) do
-    request(client, "SetQueueAttributes", input, options)
+  def set_queue_attributes(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "SetQueueAttributes", input, options)
   end
 
   @doc """
@@ -559,11 +578,11 @@ defmodule AWS.SQS do
   in the *Amazon Simple Queue Service Developer Guide*.
 
   Cross-account permissions don't apply to this action. For more information, see
-  [Grant Cross-Account Permissions to a Role and a User Name](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name)
+  [Grant cross-account permissions to a role and a user name](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name)
   in the *Amazon Simple Queue Service Developer Guide*.
   """
-  def tag_queue(client, input, options \\ []) do
-    request(client, "TagQueue", input, options)
+  def tag_queue(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "TagQueue", input, options)
   end
 
   @doc """
@@ -573,64 +592,10 @@ defmodule AWS.SQS do
   in the *Amazon Simple Queue Service Developer Guide*.
 
   Cross-account permissions don't apply to this action. For more information, see
-  [Grant Cross-Account Permissions to a Role and a User Name](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name)
+  [Grant cross-account permissions to a role and a user name](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name)
   in the *Amazon Simple Queue Service Developer Guide*.
   """
-  def untag_queue(client, input, options \\ []) do
-    request(client, "UntagQueue", input, options)
-  end
-
-  @spec request(AWS.Client.t(), binary(), map(), list()) ::
-          {:ok, map() | nil, map()}
-          | {:error, term()}
-  defp request(client, action, input, options) do
-    client = %{client | service: "sqs"}
-    host = build_host("sqs", client)
-    url = build_url(host, client)
-
-    headers = [
-      {"Host", host},
-      {"Content-Type", "application/x-www-form-urlencoded"}
-    ]
-
-    input = Map.merge(input, %{"Action" => action, "Version" => "2012-11-05"})
-    payload = encode!(client, input)
-    headers = AWS.Request.sign_v4(client, "POST", url, headers, payload)
-    post(client, url, payload, headers, options)
-  end
-
-  defp post(client, url, payload, headers, options) do
-    case AWS.Client.request(client, :post, url, payload, headers, options) do
-      {:ok, %{status_code: 200, body: body} = response} ->
-        body = if body != "", do: decode!(client, body)
-        {:ok, body, response}
-
-      {:ok, response} ->
-        {:error, {:unexpected_response, response}}
-
-      error = {:error, _reason} -> error
-    end
-  end
-
-  defp build_host(_endpoint_prefix, %{region: "local", endpoint: endpoint}) do
-    endpoint
-  end
-  defp build_host(_endpoint_prefix, %{region: "local"}) do
-    "localhost"
-  end
-  defp build_host(endpoint_prefix, %{region: region, endpoint: endpoint}) do
-    "#{endpoint_prefix}.#{region}.#{endpoint}"
-  end
-
-  defp build_url(host, %{:proto => proto, :port => port}) do
-    "#{proto}://#{host}:#{port}/"
-  end
-
-  defp encode!(client, payload) do
-    AWS.Client.encode!(client, payload, :query)
-  end
-
-  defp decode!(client, payload) do
-    AWS.Client.decode!(client, payload, :xml)
+  def untag_queue(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "UntagQueue", input, options)
   end
 end

@@ -30,7 +30,7 @@ defmodule AWS.ApplicationAutoScaling do
 
     * Amazon Keyspaces (for Apache Cassandra) tables
 
-    * Amazon Managed Streaming for Apache Kafka cluster storage
+    * Amazon Managed Streaming for Apache Kafka broker storage
 
   ## API Summary
 
@@ -59,6 +59,25 @@ defmodule AWS.ApplicationAutoScaling do
   Guide](https://docs.aws.amazon.com/autoscaling/application/userguide/what-is-application-auto-scaling.html).
   """
 
+  alias AWS.Client
+  alias AWS.Request
+
+  def metadata do
+    %AWS.ServiceMetadata{
+      abbreviation: nil,
+      api_version: "2016-02-06",
+      content_type: "application/x-amz-json-1.1",
+      credential_scope: nil,
+      endpoint_prefix: "application-autoscaling",
+      global?: false,
+      protocol: "json",
+      service_id: "Application Auto Scaling",
+      signature_version: "v4",
+      signing_name: "application-autoscaling",
+      target_prefix: "AnyScaleFrontendService"
+    }
+  end
+
   @doc """
   Deletes the specified scaling policy for an Application Auto Scaling scalable
   target.
@@ -67,23 +86,23 @@ defmodule AWS.ApplicationAutoScaling do
   delete the CloudWatch alarm associated with the scaling policy, even if it no
   longer has an associated action.
 
-  For more information, see [Delete a Step Scaling Policy](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html#delete-step-scaling-policy)
-  and [Delete a Target Tracking Scaling Policy](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html#delete-target-tracking-policy)
+  For more information, see [Delete a step scaling policy](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html#delete-step-scaling-policy)
+  and [Delete a target tracking scaling policy](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html#delete-target-tracking-policy)
   in the *Application Auto Scaling User Guide*.
   """
-  def delete_scaling_policy(client, input, options \\ []) do
-    request(client, "DeleteScalingPolicy", input, options)
+  def delete_scaling_policy(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "DeleteScalingPolicy", input, options)
   end
 
   @doc """
   Deletes the specified scheduled action for an Application Auto Scaling scalable
   target.
 
-  For more information, see [Delete a Scheduled Action](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scheduled-scaling.html#delete-scheduled-action)
+  For more information, see [Delete a scheduled action](https://docs.aws.amazon.com/autoscaling/application/userguide/scheduled-scaling-additional-cli-commands.html#delete-scheduled-action)
   in the *Application Auto Scaling User Guide*.
   """
-  def delete_scheduled_action(client, input, options \\ []) do
-    request(client, "DeleteScheduledAction", input, options)
+  def delete_scheduled_action(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "DeleteScheduledAction", input, options)
   end
 
   @doc """
@@ -96,8 +115,8 @@ defmodule AWS.ApplicationAutoScaling do
   Deregistering a scalable target deletes the scaling policies and the scheduled
   actions that are associated with it.
   """
-  def deregister_scalable_target(client, input, options \\ []) do
-    request(client, "DeregisterScalableTarget", input, options)
+  def deregister_scalable_target(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "DeregisterScalableTarget", input, options)
   end
 
   @doc """
@@ -105,8 +124,8 @@ defmodule AWS.ApplicationAutoScaling do
 
   You can filter the results using `ResourceIds` and `ScalableDimension`.
   """
-  def describe_scalable_targets(client, input, options \\ []) do
-    request(client, "DescribeScalableTargets", input, options)
+  def describe_scalable_targets(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "DescribeScalableTargets", input, options)
   end
 
   @doc """
@@ -115,8 +134,8 @@ defmodule AWS.ApplicationAutoScaling do
 
   You can filter the results using `ResourceId` and `ScalableDimension`.
   """
-  def describe_scaling_activities(client, input, options \\ []) do
-    request(client, "DescribeScalingActivities", input, options)
+  def describe_scaling_activities(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "DescribeScalingActivities", input, options)
   end
 
   @doc """
@@ -126,12 +145,12 @@ defmodule AWS.ApplicationAutoScaling do
   You can filter the results using `ResourceId`, `ScalableDimension`, and
   `PolicyNames`.
 
-  For more information, see [Target Tracking Scaling Policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html)
-  and [Step Scaling Policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html)
+  For more information, see [Target tracking scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html)
+  and [Step scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html)
   in the *Application Auto Scaling User Guide*.
   """
-  def describe_scaling_policies(client, input, options \\ []) do
-    request(client, "DescribeScalingPolicies", input, options)
+  def describe_scaling_policies(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "DescribeScalingPolicies", input, options)
   end
 
   @doc """
@@ -141,11 +160,12 @@ defmodule AWS.ApplicationAutoScaling do
   You can filter the results using the `ResourceId`, `ScalableDimension`, and
   `ScheduledActionNames` parameters.
 
-  For more information, see [Scheduled Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scheduled-scaling.html)
+  For more information, see [Scheduled scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scheduled-scaling.html)
+  and [Managing scheduled scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/scheduled-scaling-additional-cli-commands.html)
   in the *Application Auto Scaling User Guide*.
   """
-  def describe_scheduled_actions(client, input, options \\ []) do
-    request(client, "DescribeScheduledActions", input, options)
+  def describe_scheduled_actions(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "DescribeScheduledActions", input, options)
   end
 
   @doc """
@@ -176,16 +196,16 @@ defmodule AWS.ApplicationAutoScaling do
   the target tracking policy could instruct the scalable target to scale out
   again.
 
-  For more information, see [Target Tracking Scaling Policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html)
-  and [Step Scaling Policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html)
+  For more information, see [Target tracking scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html)
+  and [Step scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html)
   in the *Application Auto Scaling User Guide*.
 
   If a scalable target is deregistered, the scalable target is no longer available
   to execute scaling policies. Any scaling policies that were specified for the
   scalable target are deleted.
   """
-  def put_scaling_policy(client, input, options \\ []) do
-    request(client, "PutScalingPolicy", input, options)
+  def put_scaling_policy(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "PutScalingPolicy", input, options)
   end
 
   @doc """
@@ -198,21 +218,21 @@ defmodule AWS.ApplicationAutoScaling do
   registered the resource as a scalable target.
 
   When start and end times are specified with a recurring schedule using a cron
-  expression or rates, they form the boundaries of when the recurring action
+  expression or rates, they form the boundaries for when the recurring action
   starts and stops.
 
   To update a scheduled action, specify the parameters that you want to change. If
   you don't specify start and end times, the old values are deleted.
 
-  For more information, see [Scheduled Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scheduled-scaling.html)
+  For more information, see [Scheduled scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scheduled-scaling.html)
   in the *Application Auto Scaling User Guide*.
 
   If a scalable target is deregistered, the scalable target is no longer available
   to run scheduled actions. Any scheduled actions that were specified for the
   scalable target are deleted.
   """
-  def put_scheduled_action(client, input, options \\ []) do
-    request(client, "PutScheduledAction", input, options)
+  def put_scheduled_action(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "PutScheduledAction", input, options)
   end
 
   @doc """
@@ -240,61 +260,7 @@ defmodule AWS.ApplicationAutoScaling do
   dimension, and namespace. Any parameters that you don't specify are not changed
   by this update request.
   """
-  def register_scalable_target(client, input, options \\ []) do
-    request(client, "RegisterScalableTarget", input, options)
-  end
-
-  @spec request(AWS.Client.t(), binary(), map(), list()) ::
-          {:ok, map() | nil, map()}
-          | {:error, term()}
-  defp request(client, action, input, options) do
-    client = %{client | service: "application-autoscaling"}
-    host = build_host("application-autoscaling", client)
-    url = build_url(host, client)
-
-    headers = [
-      {"Host", host},
-      {"Content-Type", "application/x-amz-json-1.1"},
-      {"X-Amz-Target", "AnyScaleFrontendService.#{action}"}
-    ]
-
-    payload = encode!(client, input)
-    headers = AWS.Request.sign_v4(client, "POST", url, headers, payload)
-    post(client, url, payload, headers, options)
-  end
-
-  defp post(client, url, payload, headers, options) do
-    case AWS.Client.request(client, :post, url, payload, headers, options) do
-      {:ok, %{status_code: 200, body: body} = response} ->
-        body = if body != "", do: decode!(client, body)
-        {:ok, body, response}
-
-      {:ok, response} ->
-        {:error, {:unexpected_response, response}}
-
-      error = {:error, _reason} -> error
-    end
-  end
-
-  defp build_host(_endpoint_prefix, %{region: "local", endpoint: endpoint}) do
-    endpoint
-  end
-  defp build_host(_endpoint_prefix, %{region: "local"}) do
-    "localhost"
-  end
-  defp build_host(endpoint_prefix, %{region: region, endpoint: endpoint}) do
-    "#{endpoint_prefix}.#{region}.#{endpoint}"
-  end
-
-  defp build_url(host, %{:proto => proto, :port => port}) do
-    "#{proto}://#{host}:#{port}/"
-  end
-
-  defp encode!(client, payload) do
-    AWS.Client.encode!(client, payload, :json)
-  end
-
-  defp decode!(client, payload) do
-    AWS.Client.decode!(client, payload, :json)
+  def register_scalable_target(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "RegisterScalableTarget", input, options)
   end
 end

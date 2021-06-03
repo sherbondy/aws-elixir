@@ -40,6 +40,25 @@ defmodule AWS.Route53Resolver do
   queries), from your network to your VPCs (inbound queries), or both.
   """
 
+  alias AWS.Client
+  alias AWS.Request
+
+  def metadata do
+    %AWS.ServiceMetadata{
+      abbreviation: "Route53Resolver",
+      api_version: "2018-04-01",
+      content_type: "application/x-amz-json-1.1",
+      credential_scope: nil,
+      endpoint_prefix: "route53resolver",
+      global?: false,
+      protocol: "json",
+      service_id: "Route53Resolver",
+      signature_version: "v4",
+      signing_name: "route53resolver",
+      target_prefix: "Route53Resolver"
+    }
+  end
+
   @doc """
   Adds IP addresses to an inbound or an outbound Resolver endpoint.
 
@@ -49,8 +68,8 @@ defmodule AWS.Route53Resolver do
   To remove an IP address from an endpoint, see
   [DisassociateResolverEndpointIpAddress](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DisassociateResolverEndpointIpAddress.html).
   """
-  def associate_resolver_endpoint_ip_address(client, input, options \\ []) do
-    request(client, "AssociateResolverEndpointIpAddress", input, options)
+  def associate_resolver_endpoint_ip_address(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "AssociateResolverEndpointIpAddress", input, options)
   end
 
   @doc """
@@ -67,8 +86,8 @@ defmodule AWS.Route53Resolver do
   To remove a VPC from a query logging configuration, see
   [DisassociateResolverQueryLogConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DisassociateResolverQueryLogConfig.html).
   """
-  def associate_resolver_query_log_config(client, input, options \\ []) do
-    request(client, "AssociateResolverQueryLogConfig", input, options)
+  def associate_resolver_query_log_config(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "AssociateResolverQueryLogConfig", input, options)
   end
 
   @doc """
@@ -80,8 +99,8 @@ defmodule AWS.Route53Resolver do
   specified in the rule. For more information about rules, see
   [CreateResolverRule](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_CreateResolverRule.html).
   """
-  def associate_resolver_rule(client, input, options \\ []) do
-    request(client, "AssociateResolverRule", input, options)
+  def associate_resolver_rule(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "AssociateResolverRule", input, options)
   end
 
   @doc """
@@ -95,8 +114,8 @@ defmodule AWS.Route53Resolver do
     * An *outbound Resolver endpoint* forwards DNS queries from the DNS
   service for a VPC to your network.
   """
-  def create_resolver_endpoint(client, input, options \\ []) do
-    request(client, "CreateResolverEndpoint", input, options)
+  def create_resolver_endpoint(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "CreateResolverEndpoint", input, options)
   end
 
   @doc """
@@ -116,8 +135,8 @@ defmodule AWS.Route53Resolver do
   a configuration include all DNS queries that originate in all VPCs that are
   associated with the configuration.
   """
-  def create_resolver_query_log_config(client, input, options \\ []) do
-    request(client, "CreateResolverQueryLogConfig", input, options)
+  def create_resolver_query_log_config(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "CreateResolverQueryLogConfig", input, options)
   end
 
   @doc """
@@ -125,8 +144,8 @@ defmodule AWS.Route53Resolver do
   the queries pass through, one domain name that you want to forward to your
   network, and the IP addresses of the DNS resolvers in your network.
   """
-  def create_resolver_rule(client, input, options \\ []) do
-    request(client, "CreateResolverRule", input, options)
+  def create_resolver_rule(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "CreateResolverRule", input, options)
   end
 
   @doc """
@@ -141,8 +160,8 @@ defmodule AWS.Route53Resolver do
     * **Outbound**: DNS queries from a VPC are no longer routed to your
   network.
   """
-  def delete_resolver_endpoint(client, input, options \\ []) do
-    request(client, "DeleteResolverEndpoint", input, options)
+  def delete_resolver_endpoint(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "DeleteResolverEndpoint", input, options)
   end
 
   @doc """
@@ -164,8 +183,8 @@ defmodule AWS.Route53Resolver do
   not necessary. If you stop sharing the configuration, those VPCs are
   automatically disassociated from the configuration.
   """
-  def delete_resolver_query_log_config(client, input, options \\ []) do
-    request(client, "DeleteResolverQueryLogConfig", input, options)
+  def delete_resolver_query_log_config(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "DeleteResolverQueryLogConfig", input, options)
   end
 
   @doc """
@@ -175,8 +194,8 @@ defmodule AWS.Route53Resolver do
   VPCs that you associated the Resolver rule with. For more information, see
   [DisassociateResolverRule](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DisassociateResolverRule.html).
   """
-  def delete_resolver_rule(client, input, options \\ []) do
-    request(client, "DeleteResolverRule", input, options)
+  def delete_resolver_rule(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "DeleteResolverRule", input, options)
   end
 
   @doc """
@@ -188,8 +207,14 @@ defmodule AWS.Route53Resolver do
   To add an IP address to an endpoint, see
   [AssociateResolverEndpointIpAddress](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_AssociateResolverEndpointIpAddress.html).
   """
-  def disassociate_resolver_endpoint_ip_address(client, input, options \\ []) do
-    request(client, "DisassociateResolverEndpointIpAddress", input, options)
+  def disassociate_resolver_endpoint_ip_address(%Client{} = client, input, options \\ []) do
+    Request.request_post(
+      client,
+      metadata(),
+      "DisassociateResolverEndpointIpAddress",
+      input,
+      options
+    )
   end
 
   @doc """
@@ -205,8 +230,8 @@ defmodule AWS.Route53Resolver do
 
      You can stop sharing the configuration.
   """
-  def disassociate_resolver_query_log_config(client, input, options \\ []) do
-    request(client, "DisassociateResolverQueryLogConfig", input, options)
+  def disassociate_resolver_query_log_config(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "DisassociateResolverQueryLogConfig", input, options)
   end
 
   @doc """
@@ -215,8 +240,15 @@ defmodule AWS.Route53Resolver do
   If you disassociate a Resolver rule from a VPC, Resolver stops forwarding DNS
   queries for the domain name that you specified in the Resolver rule.
   """
-  def disassociate_resolver_rule(client, input, options \\ []) do
-    request(client, "DisassociateResolverRule", input, options)
+  def disassociate_resolver_rule(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "DisassociateResolverRule", input, options)
+  end
+
+  @doc """
+  Gets DNSSEC validation information for a specified resource.
+  """
+  def get_resolver_dnssec_config(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "GetResolverDnssecConfig", input, options)
   end
 
   @doc """
@@ -224,8 +256,8 @@ defmodule AWS.Route53Resolver do
   inbound or an outbound Resolver endpoint, and the current status of the
   endpoint.
   """
-  def get_resolver_endpoint(client, input, options \\ []) do
-    request(client, "GetResolverEndpoint", input, options)
+  def get_resolver_endpoint(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "GetResolverEndpoint", input, options)
   end
 
   @doc """
@@ -233,8 +265,8 @@ defmodule AWS.Route53Resolver do
   the number of VPCs that the configuration is logging queries for and the
   location that logs are sent to.
   """
-  def get_resolver_query_log_config(client, input, options \\ []) do
-    request(client, "GetResolverQueryLogConfig", input, options)
+  def get_resolver_query_log_config(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "GetResolverQueryLogConfig", input, options)
   end
 
   @doc """
@@ -244,8 +276,14 @@ defmodule AWS.Route53Resolver do
   When you associate a VPC with a query logging configuration, Resolver logs DNS
   queries that originate in that VPC.
   """
-  def get_resolver_query_log_config_association(client, input, options \\ []) do
-    request(client, "GetResolverQueryLogConfigAssociation", input, options)
+  def get_resolver_query_log_config_association(%Client{} = client, input, options \\ []) do
+    Request.request_post(
+      client,
+      metadata(),
+      "GetResolverQueryLogConfigAssociation",
+      input,
+      options
+    )
   end
 
   @doc """
@@ -254,8 +292,8 @@ defmodule AWS.Route53Resolver do
   A query logging policy specifies the Resolver query logging operations and
   resources that you want to allow another AWS account to be able to use.
   """
-  def get_resolver_query_log_config_policy(client, input, options \\ []) do
-    request(client, "GetResolverQueryLogConfigPolicy", input, options)
+  def get_resolver_query_log_config_policy(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "GetResolverQueryLogConfigPolicy", input, options)
   end
 
   @doc """
@@ -263,8 +301,8 @@ defmodule AWS.Route53Resolver do
   the rule forwards DNS queries for and the ID of the outbound Resolver endpoint
   that the rule is associated with.
   """
-  def get_resolver_rule(client, input, options \\ []) do
-    request(client, "GetResolverRule", input, options)
+  def get_resolver_rule(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "GetResolverRule", input, options)
   end
 
   @doc """
@@ -274,41 +312,56 @@ defmodule AWS.Route53Resolver do
   You associate a Resolver rule and a VPC using
   [AssociateResolverRule](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_AssociateResolverRule.html).
   """
-  def get_resolver_rule_association(client, input, options \\ []) do
-    request(client, "GetResolverRuleAssociation", input, options)
+  def get_resolver_rule_association(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "GetResolverRuleAssociation", input, options)
   end
 
   @doc """
-  Gets information about a Resolver rule policy.
+  Gets information about the Resolver rule policy for a specified rule.
 
-  A Resolver rule policy specifies the Resolver operations and resources that you
-  want to allow another AWS account to be able to use.
+  A Resolver rule policy includes the rule that you want to share with another
+  account, the account that you want to share the rule with, and the Resolver
+  operations that you want to allow the account to use.
   """
-  def get_resolver_rule_policy(client, input, options \\ []) do
-    request(client, "GetResolverRulePolicy", input, options)
+  def get_resolver_rule_policy(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "GetResolverRulePolicy", input, options)
+  end
+
+  @doc """
+  Lists the configurations for DNSSEC validation that are associated with the
+  current AWS account.
+  """
+  def list_resolver_dnssec_configs(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "ListResolverDnssecConfigs", input, options)
   end
 
   @doc """
   Gets the IP addresses for a specified Resolver endpoint.
   """
-  def list_resolver_endpoint_ip_addresses(client, input, options \\ []) do
-    request(client, "ListResolverEndpointIpAddresses", input, options)
+  def list_resolver_endpoint_ip_addresses(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "ListResolverEndpointIpAddresses", input, options)
   end
 
   @doc """
   Lists all the Resolver endpoints that were created using the current AWS
   account.
   """
-  def list_resolver_endpoints(client, input, options \\ []) do
-    request(client, "ListResolverEndpoints", input, options)
+  def list_resolver_endpoints(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "ListResolverEndpoints", input, options)
   end
 
   @doc """
   Lists information about associations between Amazon VPCs and query logging
   configurations.
   """
-  def list_resolver_query_log_config_associations(client, input, options \\ []) do
-    request(client, "ListResolverQueryLogConfigAssociations", input, options)
+  def list_resolver_query_log_config_associations(%Client{} = client, input, options \\ []) do
+    Request.request_post(
+      client,
+      metadata(),
+      "ListResolverQueryLogConfigAssociations",
+      input,
+      options
+    )
   end
 
   @doc """
@@ -317,30 +370,30 @@ defmodule AWS.Route53Resolver do
   Each configuration defines where you want Resolver to save DNS query logs and
   specifies the VPCs that you want to log queries for.
   """
-  def list_resolver_query_log_configs(client, input, options \\ []) do
-    request(client, "ListResolverQueryLogConfigs", input, options)
+  def list_resolver_query_log_configs(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "ListResolverQueryLogConfigs", input, options)
   end
 
   @doc """
   Lists the associations that were created between Resolver rules and VPCs using
   the current AWS account.
   """
-  def list_resolver_rule_associations(client, input, options \\ []) do
-    request(client, "ListResolverRuleAssociations", input, options)
+  def list_resolver_rule_associations(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "ListResolverRuleAssociations", input, options)
   end
 
   @doc """
   Lists the Resolver rules that were created using the current AWS account.
   """
-  def list_resolver_rules(client, input, options \\ []) do
-    request(client, "ListResolverRules", input, options)
+  def list_resolver_rules(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "ListResolverRules", input, options)
   end
 
   @doc """
   Lists the tags that you associated with the specified resource.
   """
-  def list_tags_for_resource(client, input, options \\ []) do
-    request(client, "ListTagsForResource", input, options)
+  def list_tags_for_resource(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "ListTagsForResource", input, options)
   end
 
   @doc """
@@ -348,38 +401,47 @@ defmodule AWS.Route53Resolver do
   with, the query logging configuration that you want to share, and the operations
   that you want the account to be able to perform on the configuration.
   """
-  def put_resolver_query_log_config_policy(client, input, options \\ []) do
-    request(client, "PutResolverQueryLogConfigPolicy", input, options)
+  def put_resolver_query_log_config_policy(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "PutResolverQueryLogConfigPolicy", input, options)
   end
 
   @doc """
-  Specifies an AWS account that you want to share rules with, the Resolver rules
-  that you want to share, and the operations that you want the account to be able
-  to perform on those rules.
+  Specifies an AWS rule that you want to share with another account, the account
+  that you want to share the rule with, and the operations that you want the
+  account to be able to perform on the rule.
   """
-  def put_resolver_rule_policy(client, input, options \\ []) do
-    request(client, "PutResolverRulePolicy", input, options)
+  def put_resolver_rule_policy(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "PutResolverRulePolicy", input, options)
   end
 
   @doc """
   Adds one or more tags to a specified resource.
   """
-  def tag_resource(client, input, options \\ []) do
-    request(client, "TagResource", input, options)
+  def tag_resource(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "TagResource", input, options)
   end
 
   @doc """
   Removes one or more tags from a specified resource.
   """
-  def untag_resource(client, input, options \\ []) do
-    request(client, "UntagResource", input, options)
+  def untag_resource(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "UntagResource", input, options)
+  end
+
+  @doc """
+  Updates an existing DNSSEC validation configuration.
+
+  If there is no existing DNSSEC validation configuration, one is created.
+  """
+  def update_resolver_dnssec_config(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "UpdateResolverDnssecConfig", input, options)
   end
 
   @doc """
   Updates the name of an inbound or an outbound Resolver endpoint.
   """
-  def update_resolver_endpoint(client, input, options \\ []) do
-    request(client, "UpdateResolverEndpoint", input, options)
+  def update_resolver_endpoint(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "UpdateResolverEndpoint", input, options)
   end
 
   @doc """
@@ -388,61 +450,7 @@ defmodule AWS.Route53Resolver do
   `ResolverRuleId` is required, and all other parameters are optional. If you
   don't specify a parameter, it retains its current value.
   """
-  def update_resolver_rule(client, input, options \\ []) do
-    request(client, "UpdateResolverRule", input, options)
-  end
-
-  @spec request(AWS.Client.t(), binary(), map(), list()) ::
-          {:ok, map() | nil, map()}
-          | {:error, term()}
-  defp request(client, action, input, options) do
-    client = %{client | service: "route53resolver"}
-    host = build_host("route53resolver", client)
-    url = build_url(host, client)
-
-    headers = [
-      {"Host", host},
-      {"Content-Type", "application/x-amz-json-1.1"},
-      {"X-Amz-Target", "Route53Resolver.#{action}"}
-    ]
-
-    payload = encode!(client, input)
-    headers = AWS.Request.sign_v4(client, "POST", url, headers, payload)
-    post(client, url, payload, headers, options)
-  end
-
-  defp post(client, url, payload, headers, options) do
-    case AWS.Client.request(client, :post, url, payload, headers, options) do
-      {:ok, %{status_code: 200, body: body} = response} ->
-        body = if body != "", do: decode!(client, body)
-        {:ok, body, response}
-
-      {:ok, response} ->
-        {:error, {:unexpected_response, response}}
-
-      error = {:error, _reason} -> error
-    end
-  end
-
-  defp build_host(_endpoint_prefix, %{region: "local", endpoint: endpoint}) do
-    endpoint
-  end
-  defp build_host(_endpoint_prefix, %{region: "local"}) do
-    "localhost"
-  end
-  defp build_host(endpoint_prefix, %{region: region, endpoint: endpoint}) do
-    "#{endpoint_prefix}.#{region}.#{endpoint}"
-  end
-
-  defp build_url(host, %{:proto => proto, :port => port}) do
-    "#{proto}://#{host}:#{port}/"
-  end
-
-  defp encode!(client, payload) do
-    AWS.Client.encode!(client, payload, :json)
-  end
-
-  defp decode!(client, payload) do
-    AWS.Client.decode!(client, payload, :json)
+  def update_resolver_rule(%Client{} = client, input, options \\ []) do
+    Request.request_post(client, metadata(), "UpdateResolverRule", input, options)
   end
 end

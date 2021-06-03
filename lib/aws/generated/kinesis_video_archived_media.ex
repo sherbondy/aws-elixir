@@ -2,9 +2,24 @@
 # See https://github.com/aws-beam/aws-codegen for more details.
 
 defmodule AWS.KinesisVideoArchivedMedia do
-  @moduledoc """
+  alias AWS.Client
+  alias AWS.Request
 
-  """
+  def metadata do
+    %AWS.ServiceMetadata{
+      abbreviation: nil,
+      api_version: "2017-09-30",
+      content_type: "application/x-amz-json-1.1",
+      credential_scope: nil,
+      endpoint_prefix: "kinesisvideo",
+      global?: false,
+      protocol: "rest-json",
+      service_id: "Kinesis Video Archived Media",
+      signature_version: "v4",
+      signing_name: "kinesisvideo",
+      target_prefix: nil
+    }
+  end
 
   @doc """
   Downloads an MP4 file (clip) containing the archived, on-demand media from the
@@ -13,7 +28,7 @@ defmodule AWS.KinesisVideoArchivedMedia do
   Both the StreamName and the StreamARN parameters are optional, but you must
   specify either the StreamName or the StreamARN when invoking this API operation.
 
-  As a prerequsite to using GetCLip API, you must obtain an endpoint using
+  As a prerequisite to using GetCLip API, you must obtain an endpoint using
   `GetDataEndpoint`, specifying GET_CLIP for` the `APIName` parameter. `
 
   ```
@@ -43,28 +58,29 @@ defmodule AWS.KinesisVideoArchivedMedia do
 
   ```
   """
-  def get_clip(client, input, options \\ []) do
-    path_ = "/getClip"
+  def get_clip(%Client{} = client, input, options \\ []) do
+    url_path = "/getClip"
     headers = []
-    query_ = []
-    case request(client, :post, path_, query_, headers, input, options, nil) do
-      {:ok, body, response} when not is_nil(body) ->
-        body =
-          [
-            {"Content-Type", "ContentType"},
-          ]
-          |> Enum.reduce(body, fn {header_name, key}, acc ->
-            case List.keyfind(response.headers, header_name, 0) do
-              nil -> acc
-              {_header_name, value} -> Map.put(acc, key, value)
-            end
-          end)
+    query_params = []
 
-        {:ok, body, response}
+    options =
+      Keyword.put(
+        options,
+        :response_header_parameters,
+        [{"Content-Type", "ContentType"}]
+      )
 
-      result ->
-        result
-    end
+    Request.request_rest(
+      client,
+      metadata(),
+      :post,
+      url_path,
+      query_params,
+      headers,
+      input,
+      options,
+      nil
+    )
   end
 
   @doc """
@@ -108,9 +124,9 @@ defmodule AWS.KinesisVideoArchivedMedia do
   encrypted session token) for the session's MPEG-DASH *manifest* (the root
   resource needed for streaming with MPEG-DASH).
 
-  Don't share or store this token where an unauthorized entity could access it.
-  The token provides access to the content of the stream. Safeguard the token with
-  the same measures that you would use with your AWS credentials.
+  Don't share or store this token where an unauthorized entity can access it. The
+  token provides access to the content of the stream. Safeguard the token with the
+  same measures that you use with your AWS credentials.
 
   The media that is made available through the manifest consists only of the
   requested stream, time range, and format. No other media data (such as frames
@@ -156,21 +172,7 @@ defmodule AWS.KinesisVideoArchivedMedia do
   Data retrieved with this action is billable. See
   [Pricing](https://aws.amazon.com/kinesis/video-streams/pricing/) for details.
 
-  The following restrictions apply to MPEG-DASH sessions:
-
-     A streaming session URL should not be shared between players. The
-  service might throttle a session if multiple media players are sharing it. For
-  connection limits, see [Kinesis Video Streams Limits](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/limits.html).
-
-     A Kinesis video stream can have a maximum of ten active MPEG-DASH
-  streaming sessions. If a new session is created when the maximum number of
-  sessions is already active, the oldest (earliest created) session is closed. The
-  number of active `GetMedia` connections on a Kinesis video stream does not count
-  against this limit, and the number of active MPEG-DASH sessions does not count
-  against the active `GetMedia` connection limit.
-
-  The maximum limits for active HLS and MPEG-DASH streaming sessions are
-  independent of each other.
+  For restrictions that apply to MPEG-DASH sessions, see [Kinesis Video Streams Limits](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/limits.html).
 
   You can monitor the amount of data that the media player consumes by monitoring
   the `GetMP4MediaFragment.OutgoingBytes` Amazon CloudWatch metric. For
@@ -199,11 +201,22 @@ defmodule AWS.KinesisVideoArchivedMedia do
   For more information, see the **Errors** section at the bottom of this topic, as
   well as [Common Errors](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/CommonErrors.html).
   """
-  def get_d_a_s_h_streaming_session_u_r_l(client, input, options \\ []) do
-    path_ = "/getDASHStreamingSessionURL"
+  def get_dash_streaming_session_url(%Client{} = client, input, options \\ []) do
+    url_path = "/getDASHStreamingSessionURL"
     headers = []
-    query_ = []
-    request(client, :post, path_, query_, headers, input, options, nil)
+    query_params = []
+
+    Request.request_rest(
+      client,
+      metadata(),
+      :post,
+      url_path,
+      query_params,
+      headers,
+      input,
+      options,
+      nil
+    )
   end
 
   @doc """
@@ -319,21 +332,9 @@ defmodule AWS.KinesisVideoArchivedMedia do
 
   Data retrieved with this action is billable. For more information, see [Kinesis Video Streams pricing](https://aws.amazon.com/kinesis/video-streams/pricing/).
 
-  The following restrictions apply to HLS sessions:
-
-     A streaming session URL should not be shared between players. The
-  service might throttle a session if multiple media players are sharing it. For
-  connection limits, see [Kinesis Video Streams Limits](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/limits.html).
-
-     A Kinesis video stream can have a maximum of ten active HLS
-  streaming sessions. If a new session is created when the maximum number of
-  sessions is already active, the oldest (earliest created) session is closed. The
-  number of active `GetMedia` connections on a Kinesis video stream does not count
-  against this limit, and the number of active HLS sessions does not count against
-  the active `GetMedia` connection limit.
-
-  The maximum limits for active HLS and MPEG-DASH streaming sessions are
-  independent of each other.
+  A streaming session URL must not be shared between players. The service might
+  throttle a session if multiple media players are sharing it. For connection
+  limits, see [Kinesis Video Streams Limits](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/limits.html).
 
   You can monitor the amount of data that the media player consumes by monitoring
   the `GetMP4MediaFragment.OutgoingBytes` Amazon CloudWatch metric. For
@@ -362,11 +363,22 @@ defmodule AWS.KinesisVideoArchivedMedia do
   For more information, see the **Errors** section at the bottom of this topic, as
   well as [Common Errors](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/CommonErrors.html).
   """
-  def get_h_l_s_streaming_session_u_r_l(client, input, options \\ []) do
-    path_ = "/getHLSStreamingSessionURL"
+  def get_hls_streaming_session_url(%Client{} = client, input, options \\ []) do
+    url_path = "/getHLSStreamingSessionURL"
     headers = []
-    query_ = []
-    request(client, :post, path_, query_, headers, input, options, nil)
+    query_params = []
+
+    Request.request_rest(
+      client,
+      metadata(),
+      :post,
+      url_path,
+      query_params,
+      headers,
+      input,
+      options,
+      nil
+    )
   end
 
   @doc """
@@ -376,14 +388,7 @@ defmodule AWS.KinesisVideoArchivedMedia do
   You must first call the `GetDataEndpoint` API to get an endpoint. Then send the
   `GetMediaForFragmentList` requests to this endpoint using the [--endpoint-url parameter](https://docs.aws.amazon.com/cli/latest/reference/).
 
-  The following limits apply when using the `GetMediaForFragmentList` API:
-
-    * A client can call `GetMediaForFragmentList` up to five times per
-  second per stream.
-
-    * Kinesis Video Streams sends media data at a rate of up to 25
-  megabytes per second (or 200 megabits per second) during a
-  `GetMediaForFragmentList` session.
+  For limits, see [Kinesis Video Streams Limits](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/limits.html).
 
   If an error is thrown after invoking a Kinesis Video Streams archived media API,
   in addition to the HTTP status code and the response body, it includes the
@@ -403,28 +408,29 @@ defmodule AWS.KinesisVideoArchivedMedia do
   For more information, see the **Errors** section at the bottom of this topic, as
   well as [Common Errors](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/CommonErrors.html).
   """
-  def get_media_for_fragment_list(client, input, options \\ []) do
-    path_ = "/getMediaForFragmentList"
+  def get_media_for_fragment_list(%Client{} = client, input, options \\ []) do
+    url_path = "/getMediaForFragmentList"
     headers = []
-    query_ = []
-    case request(client, :post, path_, query_, headers, input, options, nil) do
-      {:ok, body, response} when not is_nil(body) ->
-        body =
-          [
-            {"Content-Type", "ContentType"},
-          ]
-          |> Enum.reduce(body, fn {header_name, key}, acc ->
-            case List.keyfind(response.headers, header_name, 0) do
-              nil -> acc
-              {_header_name, value} -> Map.put(acc, key, value)
-            end
-          end)
+    query_params = []
 
-        {:ok, body, response}
+    options =
+      Keyword.put(
+        options,
+        :response_header_parameters,
+        [{"Content-Type", "ContentType"}]
+      )
 
-      result ->
-        result
-    end
+    Request.request_rest(
+      client,
+      metadata(),
+      :post,
+      url_path,
+      query_params,
+      headers,
+      input,
+      options,
+      nil
+    )
   end
 
   @doc """
@@ -457,74 +463,21 @@ defmodule AWS.KinesisVideoArchivedMedia do
   For more information, see the **Errors** section at the bottom of this topic, as
   well as [Common Errors](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/CommonErrors.html).
   """
-  def list_fragments(client, input, options \\ []) do
-    path_ = "/listFragments"
+  def list_fragments(%Client{} = client, input, options \\ []) do
+    url_path = "/listFragments"
     headers = []
-    query_ = []
-    request(client, :post, path_, query_, headers, input, options, nil)
-  end
+    query_params = []
 
-  @spec request(AWS.Client.t(), binary(), binary(), list(), list(), map(), list(), pos_integer()) ::
-          {:ok, map() | nil, map()}
-          | {:error, term()}
-  defp request(client, method, path, query, headers, input, options, success_status_code) do
-    client = %{client | service: "kinesisvideo"}
-    host = build_host("kinesisvideo", client)
-    url = host
-    |> build_url(path, client)
-    |> add_query(query, client)
-
-    additional_headers = [{"Host", host}, {"Content-Type", "application/x-amz-json-1.1"}]
-    headers = AWS.Request.add_headers(additional_headers, headers)
-
-    payload = encode!(client, input)
-    headers = AWS.Request.sign_v4(client, method, url, headers, payload)
-    perform_request(client, method, url, payload, headers, options, success_status_code)
-  end
-
-  defp perform_request(client, method, url, payload, headers, options, success_status_code) do
-    case AWS.Client.request(client, method, url, payload, headers, options) do
-      {:ok, %{status_code: status_code, body: body} = response}
-      when is_nil(success_status_code) and status_code in [200, 202, 204]
-      when status_code == success_status_code ->
-        body = if(body != "", do: decode!(client, body))
-        {:ok, body, response}
-
-      {:ok, response} ->
-        {:error, {:unexpected_response, response}}
-
-      error = {:error, _reason} -> error
-    end
-  end
-
-
-  defp build_host(_endpoint_prefix, %{region: "local", endpoint: endpoint}) do
-    endpoint
-  end
-  defp build_host(_endpoint_prefix, %{region: "local"}) do
-    "localhost"
-  end
-  defp build_host(endpoint_prefix, %{region: region, endpoint: endpoint}) do
-    "#{endpoint_prefix}.#{region}.#{endpoint}"
-  end
-
-  defp build_url(host, path, %{:proto => proto, :port => port}) do
-    "#{proto}://#{host}:#{port}#{path}"
-  end
-
-  defp add_query(url, [], _client) do
-    url
-  end
-  defp add_query(url, query, client) do
-    querystring = encode!(client, query, :query)
-    "#{url}?#{querystring}"
-  end
-
-  defp encode!(client, payload, format \\ :json) do
-    AWS.Client.encode!(client, payload, format)
-  end
-
-  defp decode!(client, payload) do
-    AWS.Client.decode!(client, payload, :json)
+    Request.request_rest(
+      client,
+      metadata(),
+      :post,
+      url_path,
+      query_params,
+      headers,
+      input,
+      options,
+      nil
+    )
   end
 end

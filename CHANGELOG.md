@@ -4,6 +4,34 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased][unreleased]
 
+## [v0.7.0] - 2020-12-22
+### Added
+- Add support for more AWS APIs. There are more than 170 new modules, which includes
+the majority of AWS services.
+- Load AWS credentials from env if available.
+- Add header `X-Amz-Content-SHA256` required for APIs using the rest-xml protocol.
+- Handle querystring parameters.
+- Allow the user to configure the HTTP client, as well as the JSON parser.
+
+### Changed
+- Improve documentation by using more markdown and removing HTML tags.
+- Rename modules and function names to consider the correct use of abbreviations, like SQS or DB.
+- Migrate to Jason (JSON parser) and hackney (HTTP client) as the default dependencies. Hackney
+is an optional dependency.
+
+### Fixed
+- Fixed the way we send the payload to endpoints that accepts binaries as body (S3
+is an example).
+- Normalize querystring when signing.
+- Remove duplicated headers.
+
+## [v0.6.0] - 2020-08-20
+### Added
+- Includes support for more AWS APIs.
+
+### Fixed
+- Pass security token for signed POST requests.
+
 ## [v0.5.0] - 2017-03-07
 ### Fixed
 - `AWS.APIGateway` module uses a service URL without a trailing slash
@@ -366,20 +394,22 @@ All notable changes to this project will be documented in this file.
 - `AWS.StorageGateway` module for Storage Gateway Service
 - `AWS.Support` module for Support Service.
 
-[unreleased]: https://github.com/jkakar/aws-elixir/compare/v0.5.0...HEAD
-[v0.5.0]: https://github.com/jkakar/aws-elixir/compare/v0.4.0...v0.5.0
-[v0.4.0]: https://github.com/jkakar/aws-elixir/compare/v0.3.0...v0.4.0
-[v0.3.0]: https://github.com/jkakar/aws-elixir/compare/v0.2.0...v0.3.0
-[v0.2.0]: https://github.com/jkakar/aws-elixir/compare/v0.1.0...v0.2.0
-[v0.1.0]: https://github.com/jkakar/aws-elixir/compare/v0.0.12...v0.1.0
-[v0.0.12]: https://github.com/jkakar/aws-elixir/compare/v0.0.11...v0.0.12
-[v0.0.11]: https://github.com/jkakar/aws-elixir/compare/v0.0.10...v0.0.11
-[v0.0.10]: https://github.com/jkakar/aws-elixir/compare/v0.0.9...v0.0.10
-[v0.0.9]: https://github.com/jkakar/aws-elixir/compare/v0.0.8...v0.0.9
-[v0.0.8]: https://github.com/jkakar/aws-elixir/compare/v0.0.7...v0.0.8
-[v0.0.7]: https://github.com/jkakar/aws-elixir/compare/v0.0.6...v0.0.7
-[v0.0.6]: https://github.com/jkakar/aws-elixir/compare/v0.0.5...v0.0.6
-[v0.0.5]: https://github.com/jkakar/aws-elixir/compare/v0.0.4...v0.0.5
-[v0.0.4]: https://github.com/jkakar/aws-elixir/compare/v0.0.3...v0.0.4
-[v0.0.3]: https://github.com/jkakar/aws-elixir/compare/v0.0.2...v0.0.3
-[v0.0.2]: https://github.com/jkakar/aws-elixir/compare/v0.0.1...v0.0.2
+[unreleased]: https://github.com/aws-beam/aws-elixir/compare/v0.7.0...HEAD
+[v0.7.0]: https://github.com/aws-beam/aws-elixir/compare/v0.6.0...v0.7.0
+[v0.6.0]: https://github.com/aws-beam/aws-elixir/compare/v0.5.0...v0.6.0
+[v0.5.0]: https://github.com/aws-beam/aws-elixir/compare/v0.4.0...v0.5.0
+[v0.4.0]: https://github.com/aws-beam/aws-elixir/compare/v0.3.0...v0.4.0
+[v0.3.0]: https://github.com/aws-beam/aws-elixir/compare/v0.2.0...v0.3.0
+[v0.2.0]: https://github.com/aws-beam/aws-elixir/compare/v0.1.0...v0.2.0
+[v0.1.0]: https://github.com/aws-beam/aws-elixir/compare/v0.0.12...v0.1.0
+[v0.0.12]: https://github.com/aws-beam/aws-elixir/compare/v0.0.11...v0.0.12
+[v0.0.11]: https://github.com/aws-beam/aws-elixir/compare/v0.0.10...v0.0.11
+[v0.0.10]: https://github.com/aws-beam/aws-elixir/compare/v0.0.9...v0.0.10
+[v0.0.9]: https://github.com/aws-beam/aws-elixir/compare/v0.0.8...v0.0.9
+[v0.0.8]: https://github.com/aws-beam/aws-elixir/compare/v0.0.7...v0.0.8
+[v0.0.7]: https://github.com/aws-beam/aws-elixir/compare/v0.0.6...v0.0.7
+[v0.0.6]: https://github.com/aws-beam/aws-elixir/compare/v0.0.5...v0.0.6
+[v0.0.5]: https://github.com/aws-beam/aws-elixir/compare/v0.0.4...v0.0.5
+[v0.0.4]: https://github.com/aws-beam/aws-elixir/compare/v0.0.3...v0.0.4
+[v0.0.3]: https://github.com/aws-beam/aws-elixir/compare/v0.0.2...v0.0.3
+[v0.0.2]: https://github.com/aws-beam/aws-elixir/compare/v0.0.1...v0.0.2
